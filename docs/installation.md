@@ -3,7 +3,7 @@ hide:
   - footer
 ---
 
-You don't need to install Librarian to use it - if you just have a few fastq files to test then you can simply vist the [Online version of Librarian](https://www.bioinformatics.babraham.ac.uk/librarian/) and select your fastq files to analyse.  No sequence data is sent to the server - only aggregated composition data, so your data stays on your machine.
+You don't need to install Librarian to use it - if you just have a few fastq files to test then you can simply vist the [Online version of Librarian](https://www.bioinformatics.babraham.ac.uk/librarian/) and select your files to analyse.  No sequence data is sent to the server - only aggregated composition data, so your data stays on your machine.
 
 If you have a larger number of files to analyse then you will want to install the command line version of the program
 
@@ -155,3 +155,86 @@ INFO [librarian] Created "librarian_prediction_plot.png"
 INFO [librarian] Created "librarian_librarian_heatmap.txt"
 INFO [librarian] Created "librarian_Librarian_analysis.html"
 ```
+
+
+## Other options
+
+The full set of options for librarian can be seen by running:
+
+```
+librarian --help
+Librarian CLI 1.1.0
+A tool to predict the sequencing library type from the base composition of a 
+supplied FastQ file. Uncompresses .gz files when reading.
+
+USAGE:
+    librarian [FLAGS] [OPTIONS] <input>...
+
+FLAGS:
+    -h, --help
+            Prints help information
+
+    -l, --local
+            Run all processing locally, replacing the need for a server. Requires 
+            Rscript and other dependencies to be installed, along with the `scripts` 
+            folder. See https://github.com/DesmondWillowbrook/Librarian/blob/master/cli/README.md 
+            for more details.
+
+            This cannot be set together with `api`.
+
+    -q, --quiet
+            Suppresses all output except errors
+
+    -V, --version
+            Prints version information
+
+
+OPTIONS:
+        --api <api>
+            Specifies query URL to send prediction request to. Defaults to Babraham Bioinformatic's 
+            server. Passed argument is given precedence over an environment variable.
+
+            This cannot be set together with --local. [env: LIBRARIAN_API_URL=]  [default:
+            https://www.bioinformatics.babraham.ac.uk/librarian/api/plot_comp]
+
+            You should only set this if you have created your own librarian server
+
+    -o, --prefix <prefix>
+            Prefix to append to output files (eg. `output_dir/` or `name_`) Note that this can be used 
+            to set an output directory as well as a file name prefix [default: librarian_]
+
+ARGS:
+    <input>...
+            List of input files
+
+```
+
+Commonly you will want to set the ```--prefix``` option.  This allows you to control the location and
+names of the output files.  By default you get files called:
+
+```
+librarian_compositions_map.svg
+librarian_compositions_map.png
+librarian_probability_maps.svg
+librarian_probability_maps.png
+librarian_prediction_plot.svg
+librarian_prediction_plot.png
+librarian_librarian_heatmap.txt
+librarian_Librarian_analysis.html
+```
+
+If you set ```--prefix sample1234_``` then the files would instead be named:
+
+```
+sample1234_compositions_map.svg
+sample1234_compositions_map.png
+sample1234_probability_maps.svg
+sample1234_probability_maps.png
+sample1234_prediction_plot.svg
+sample1234_prediction_plot.png
+sample1234_librarian_heatmap.txt
+sample1234_Librarian_analysis.html
+```
+
+..so this allows you to mix outputs from multiple runs of the program without overwriting
+output files.
